@@ -1,4 +1,4 @@
-My emacs configuration.
+My emacs configuration - mac heavy for the moment.
 
 Credits
 =======
