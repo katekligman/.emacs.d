@@ -1,3 +1,6 @@
 [submodule "emacspeak"]
 	path = mac/emacspeak
 	url = git@github.com:tvraman/emacspeak.git
+[submodule "linux/emacspeak"]
+	path = linux/emacspeak
+	url = git@github.com:tvraman/emacspeak.git
