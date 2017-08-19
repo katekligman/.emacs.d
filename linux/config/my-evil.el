@@ -264,7 +264,7 @@ whether to call indent-according-to-mode."
     (define-key evil-normal-state-map (kbd "<backtab>") 'evil-prev-buffer)
 
     ;; speak the mode-line
-    (define-key evil-normal-state-map (kbd "C-g") (lambda () (interactive) (emacspeak-speak-line-number) (emacspeak-speak-buffer-filename)))
+    (define-key evil-normal-state-map (kbd "C-g") (lambda () (interactive) (emacspeak-speak-line-number) (sleep-for '1) (emacspeak-speak-buffer-filename)))
 
     (evil-ex-define-cmd "Q"  'evil-quit)
     (evil-ex-define-cmd "Qa" 'evil-quit-all)
