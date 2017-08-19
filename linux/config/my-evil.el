@@ -83,13 +83,58 @@
       (evil-ex-search-previous count)
       (list evil-ex-search-match-beg evil-ex-search-match-end))
 
+;; Prevent ESC-k and ESC-j from deleting lines in visual mode
+    (define-key evil-normal-state-map (kbd "ESC k") 'keyboard-quit)
+    (define-key evil-normal-state-map (kbd "ESC j") 'keyboard-quit)
+    (define-key evil-visual-state-map (kbd "ESC k") 'keyboard-quit)
+    (define-key evil-visual-state-map (kbd "ESC j") 'keyboard-quit)
+    (define-key evil-insert-state-map (kbd "ESC k") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "ESC j") 'evil-normal-state)
+
+    (define-key evil-normal-state-map [escape] 'keyboard-quit)
+    (define-key evil-visual-state-map [escape] 'keyboard-quit)
     (define-key minibuffer-local-map [escape] 'my-minibuffer-keyboard-quit)
     (define-key minibuffer-local-ns-map [escape] 'my-minibuffer-keyboard-quit)
     (define-key minibuffer-local-completion-map [escape] 'my-minibuffer-keyboard-quit)
     (define-key minibuffer-local-must-match-map [escape] 'my-minibuffer-keyboard-quit)
+    (define-key minibuffer-local-isearch-map [escape] 'my-minibuffer-keyboard-quit)
 
-    (defun my-delete-trailing-whitespace-at-line ()
-      "Delete trailing whitespace on the current line only."
+;; smash mode, props to http://www.lukeswart.net/2015/04/lightning-intro-to-emacs-using-evil-mode-and-org-mode/
+    (define-key evil-insert-state-map "k" #'cofi/maybe-exit-kj)
+    (evil-define-command cofi/maybe-exit-kj ()
+      :repeat change
+      (interactive)
+      (let ((modified (buffer-modified-p)))
+	(insert "k")
+	(let ((evt (read-event (format "Insert %c to exit insert state" ?j)
+			       nil 0.5)))
+	  (cond
+	   ((null evt) (message ""))
+	   ((and (integerp evt) (char-equal evt ?j))
+	    (delete-char -1)
+	    (set-buffer-modified-p modified)
+	    (push 'escape unread-command-events))
+	   (t (setq unread-command-events (append unread-command-events
+						  (list evt))))))))
+    (define-key evil-insert-state-map "j" #'cofi/maybe-exit-jk)
+    (evil-define-command cofi/maybe-exit-jk ()
+      :repeat change
+      (interactive)
+      (let ((modified (buffer-modified-p)))
+	(insert "j")
+	(let ((evt (read-event (format "Insert %c to exit insert state" ?k)
+			       nil 0.5)))
+	  (cond
+	   ((null evt) (message ""))
+	   ((and (integerp evt) (char-equal evt ?k))
+	    (delete-char -1)
+	    (set-buffer-modified-p modified)
+	    (push 'escape unread-command-events))
+	   (t (setq unread-command-events (append unread-command-events
+						  (list evt))))))))
+
+(defun my-delete-trailing-whitespace-at-line ()
+"Delete trailing whitespace on the current line only."
       (interactive)
       (let ((begin (line-beginning-position))
             (end   (line-end-position)))
