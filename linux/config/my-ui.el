@@ -1,3 +1,6 @@
+;; No startup screen
+(setq inhibit-startup-screen t)
+
 ;; No buttons
 (tool-bar-mode -1)
 
