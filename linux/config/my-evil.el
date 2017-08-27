@@ -84,6 +84,10 @@
       (evil-ex-search-previous count)
       (list evil-ex-search-match-beg evil-ex-search-match-end))
 
+;; End key goes to the end of line -- works on xterm and vt100                                                     
+    (define-key evil-normal-state-map (kbd "<select>") 'move-end-of-line)
+    (define-key evil-visual-state-map (kbd "<select>") 'move-end-of-line)
+
 ;; Prevent ESC-k and ESC-j from deleting lines in visual mode
     (define-key evil-normal-state-map (kbd "ESC k") 'keyboard-quit)
     (define-key evil-normal-state-map (kbd "ESC j") 'keyboard-quit)
