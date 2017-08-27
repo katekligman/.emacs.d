@@ -4,6 +4,7 @@
 ;; Settings for ostracizing me from both the Emacs and Vim communities.
 ;; a.k.a. evil-mode
 
+(setq evil-toggle-key "C-`")
 
 ;; In order to work properly, we need to load evil-leader-mode before we load
 ;; evil-mode.
