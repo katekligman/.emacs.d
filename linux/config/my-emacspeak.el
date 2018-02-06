@@ -4,6 +4,7 @@
 (setq dtk-program "espeak")
 (require 'emacspeak-setup)
 (dtk-set-rate 310 t)
+(emacspeak-toggle-auditory-icons 0)
 
 (provide 'my-emacspeak)
 
